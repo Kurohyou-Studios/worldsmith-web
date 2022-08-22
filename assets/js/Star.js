@@ -75,6 +75,14 @@ export class Star{
   }
 
   /**
+   * Returns true or false depending on if the given orbit is habitable
+   * @param {number} orbit - The orbit in AU to check for habitability
+   */
+  isHabitable(orbit){
+    return orbit >= this.habZone[0] && orbit <= this.habZone[1];
+  }
+
+  /**
    * 
    * @param {number|string} mass 
    * @returns 

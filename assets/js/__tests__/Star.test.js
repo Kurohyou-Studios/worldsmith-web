@@ -75,15 +75,19 @@ describe('Star class',()=>{
       })
         .toThrow('A new star must have a name, mass, and age.');
     });
-    const testName = 'Test Universe';
+    const testName = 'Test Star';
     const testAge = 4.5;
     const testMass = 1;
     const testStar = new Star(testName,testMass,testAge);
-    test('Attempting to set a custom property on a created Star should throw an error',()=>{
+    test('Attempting to set a custom property or update a calc only property on a created Star should throw an error',()=>{
       expect(()=>{
         testStar.customProp = 'should not happen';
       })
         .toThrow('Cannot add property customProp, object is not extensible');
+      expect(()=>{
+        testStar.class = 'Class is calc only';
+      })
+        .toThrow('Cannot set property class of #<Star> which has only a getter');
     });
     test('A newly created star should be initialized with a name, creation date, and all the calculated properties of the star.',()=>{
   
@@ -105,5 +109,14 @@ describe('Star class',()=>{
       expect(testStar.habZone).toEqual([0.953,1.374]);
       expect(testStar.earth).toEqual('Yes');
     });
-  })
+    describe('Methods',()=>{
+      test('isHabitable should return true/false based on if the indicated au is in the habitable zone of the star',()=>{
+        const habAU = 1;
+        const inhabAU = 2;
+  
+        expect(testStar.isHabitable(habAU)).toEqual(true);
+        expect(testStar.isHabitable(inhabAU)).toEqual(false);
+      })
+    })
+  });
 })
