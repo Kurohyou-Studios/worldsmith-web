@@ -1,0 +1,16 @@
+include _mixins.pug
+
+doctype html
+html(lang="en")
+  +kurohyouHead('Worldsmith Web')
+  body
+    main
+      .central-menu
+        button(name="new-project") Start New Project
+        ul#saved-projects
+    footer
+      span © 2022 Scott Casey
+      span Based on The Worldsmith by #[a(href="https://www.youtube.com/c/Artifexian") Artifexian]
+      .social-icons
+        +socialIcons
+    script(type="module" src="./assets/js/script.js")

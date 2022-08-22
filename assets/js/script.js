@@ -1,0 +1,1 @@
+import { colorTemperature2rgb as cTemp } from './assets/js/colortemp.js';

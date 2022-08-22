@@ -1,0 +1,28 @@
+// https://www.astropical.space/apiref.php
+{
+  "info": {
+    "source": "Requio",
+    "timestamp": 1661129732
+  },
+  "hipstars": [
+    {
+      "id": 1,// 1-indexed index in returned data
+      "name": "Toliman",//common name
+      "desig": "Alp-1 Cen",// Star designation
+      "hip": 71683,// Catalog id
+      "hd": 128620,// Catalog id
+      "sao": 252838,// Catalog id
+      "con": "Cen",// Constellation
+      "mag": -0.01,// Magnitude
+      "dist": 4.366,//distance in ly from earth
+      "rad": -21.6,//radial velcoy (km/s)
+      "spk": "G2V",//Spectrum
+      "bvc": 0.71,//color index
+      "teff": 5260,//Effective temp in Kelvin
+      "mass": 1.1,//Solar masses
+      "radius": 1.227,// Solar radius
+      "ra": 14.66136,//right ascension
+      "de": -60.83511//declination
+    }
+  ]
+}
