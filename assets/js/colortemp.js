@@ -37,7 +37,7 @@
  * Input: color temperature in degrees Kelvin
  * Output: json object of red, green and blue components of the Kelvin temperature
  */
- module.exports.colorTemperature2rgbUsingTH = colorTemperature2rgbUsingTH = function(kelvin) {
+ export const colorTemperature2rgbUsingTH = function(kelvin) {
 
   var temperature = kelvin / 100.0;
   var red, green, blue;
@@ -90,7 +90,7 @@
   * Input: color temperature in degrees Kelvin
   * Output: json object of red, green and blue components of the Kelvin temperature
  */
- module.exports.colorTemperature2rgb = colorTemperature2rgb = function(kelvin) {
+ export const colorTemperature2rgb = function(kelvin) {
 
   var temperature = kelvin / 100.0;
   var red, green, blue;
@@ -165,7 +165,7 @@
 /**
  convert an rgb in JSON format into to a Kelvin color temperature
  */
-module.exports.rgb2colorTemperature = rgb2colorTemperature = function(rgb) {
+export const rgb2colorTemperature = function(rgb) {
   var temperature, testRGB;
   var epsilon=0.4;
   var minTemperature = 1000;

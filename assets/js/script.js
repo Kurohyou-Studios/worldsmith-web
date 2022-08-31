@@ -1,1 +1,11 @@
-import { colorTemperature2rgb as cTemp } from './assets/js/colortemp.js';
+import { SO } from './SO.js';
+import { Galaxy } from './Galaxy.js';
+import { Star } from './Star.js';
+import { System } from './System.js';
+import { Planet } from './Planet.js';
+const mySO = new SO('test So');
+const myGalaxy = new Galaxy('test Galaxy');
+const myStar = new Star('Test star',1,4.5);
+const mySystem = new System('Test System',0.3,0.4,4,myStar);
+const myPlanet = new Planet({name:'Test Planet'});
+debugger;

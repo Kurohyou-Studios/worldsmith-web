@@ -1,19 +1,20 @@
 'use strict';
 import { colorTemperature2rgb as cTemp } from './colortemp.js';
+import { SO } from './SO.js';
+// import { v1 as uuid } from 'https://jspm.dev/uuid';
 // Class to represent the overall Star that is created.
 /**
  * A class to represent the Star to be worked on
  */
-export class Star{
-  #starClass;
-  #maxAge;
-  #radius;
-  #luminosity;
-  #density;
-  #temperature;
-  #color;
-  #habZone;
-  #earthLike;
+export class Star extends SO{
+  #mass;
+  #age;
+  /**
+   * 
+   * @param {string} name - The name of the Star
+   * @param {number} mass - The mass of the star in solar masses
+   * @param {number} age - The age of the star in billions of earth years
+   */
   constructor(name,mass,age){
     if(
       !name || typeof name !== 'string' ||
@@ -22,56 +23,64 @@ export class Star{
     ){
       throw('A new star must have a name, mass, and age.');
     }
-    this.name = name;
-    this.mass = mass;
-    this.age = age;
-    this.creation = Date.now();
-    this.#earthLike = Star.isEarth(mass,age);
-    this.#luminosity = Star.calcLuminosity(mass);
-    this.#radius = Star.calcRadius(mass);
-    this.#maxAge = Star.calcMaxAge(mass,this.#luminosity);
-    this.#habZone = Star.calcHabZone(mass,this.#luminosity);
-    this.#density = Star.calcDensity(mass,this.#radius);
-    this.#temperature = Star.calcTemperature(mass,this.#radius,this.#luminosity);
-    this.#color = Star.calcColor(this.#temperature);
-    this.#starClass = Star.calcClass(this.#temperature);
-    Object.seal(this);
+    super(name,'Star');
+    this.#mass = mass;
+    this.#age = age;
+    this.serial.push('mass','age');
+  }
+
+  get mass(){
+    return this.#mass;
+  }
+
+  set mass(val){
+    this.#mass = val;
+    this.emit(this);
+  }
+
+  get age(){
+    return this.#age;
+  }
+
+  set age(val){
+    this.#age = val;
+    this.emit(this);
   }
 
   get luminosity() {
-    return this.#luminosity;
+    return Star.calcLuminosity(this.mass);
   }
 
   get maxAge() {
-    return this.#maxAge;
+    return Star.calcMaxAge(this.mass,this.luminosity);
   }
 
   get radius() {
-    return this.#radius;
+    return Star.calcRadius(this.mass);;
   }
   
   get temperature() {
-    return this.#temperature;
+    return Star.calcTemperature(this.mass,this.radius,this.luminosity);
   }
 
   get density() {
-    return this.#density;
+    return Star.calcDensity(this.mass,this.radius);
   }
 
   get habZone() {
-    return this.#habZone;
+    return Star.calcHabZone(this.mass,this.luminosity);
   }
 
   get earth() {
-    return this.#earthLike;
+    return Star.isEarth(this.mass,this.age);
   }
 
   get color() {
-    return this.#color;
+    return Star.calcColor(this.temperature);
   }
 
   get class() {
-    return this.#starClass;
+    return Star.calcClass(this.temperature);
   }
 
   /**

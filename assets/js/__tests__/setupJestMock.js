@@ -1,0 +1,1 @@
+global.uuid = jest.fn(()=> Date.now());

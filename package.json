@@ -6,11 +6,19 @@
   "scripts": {
     "test": "jest --watch"
   },
-  "jest":{
-    "silent":false,
-    "reporters":[
+  "jest": {
+    "setupFiles":[
+      "./assets/js/__tests__/setupJestMock.js"
+    ],
+    "silent": false,
+    "reporters": [
       "default",
-      ["jest-summary-reporter", {"failuresOnly": false}]
+      [
+        "jest-summary-reporter",
+        {
+          "failuresOnly": false
+        }
+      ]
     ]
   },
   "repository": {
@@ -28,6 +36,7 @@
     "@babel/plugin-transform-modules-commonjs": "^7.18.6",
     "jest": "^28.1.3",
     "jest-summary-reporter": "^0.0.2",
-    "js-yaml": "^4.1.0"
+    "js-yaml": "^4.1.0",
+    "uuid": "^8.3.2"
   }
 }

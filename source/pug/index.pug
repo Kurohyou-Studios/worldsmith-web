@@ -13,4 +13,7 @@ html(lang="en")
       span Based on The Worldsmith by #[a(href="https://www.youtube.com/c/Artifexian") Artifexian]
       .social-icons
         +socialIcons
+    script(type="module" src="./assets/js/uuid.min.js")
+    script(type="module").
+      uuid = uuid.v1;
     script(type="module" src="./assets/js/script.js")

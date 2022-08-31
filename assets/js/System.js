@@ -1,7 +1,19 @@
+'use strict';
 import { Star } from './Star.js';
-export class System{
+import { SO } from './SO.js';
+
+export class System extends SO{
   #orbits;
   #closeOrbit;
+  #planetaryBodies = [...Array(20).keys()].map(i => []);
+  /**
+   * 
+   * @param {string} name - The name of the system
+   * @param {number} spacing - The logarithmic spacing factor of the system
+   * @param {number} orbit1 - The distance in AU of the first orbiting planet
+   * @param {number} giantOrbit - The distance in AU of the last gas giant
+   * @param {Star} star - The star that the system is around
+   */
   constructor(name,spacing,orbit1,giantOrbit,star){
     spacing = +spacing
     orbit1 = +orbit1
@@ -15,18 +27,13 @@ export class System{
     ){
       throw('A new system must have a name, spacing factor, first orbit, an outermost gas giant orbit, and a Star.');
     }
-    this.name = name;
-    this.spaceFactor = spacing;
-    this.#closeOrbit = orbit1;
-    this.outerGiant = giantOrbit;
+    super(name,'System');
+    star.addListener(this.updateSystem);
     this.star = star;
-    this.creation = Date.now();
-    // [...Array(8).keys()]
-    //   .map(k => k + 1)
-    //   .forEach(k => {
-    //     this.orbits.push({distance:})
-    //   })
-    Object.seal(this);
+    this.spaceFactor = spacing;
+    this.orbit1 = orbit1;
+    this.outerGiant = giantOrbit;
+    this.serial.push('star','orbit1','spaceFactor','outerGiant','planetaryBodies');
   }
 
   /**
@@ -35,6 +42,22 @@ export class System{
    * @param {number} orbit - The orbit index in which to insert the object
    */
   addBody(body,orbit){
+    orbit = +orbit;
+    if(!body || Number.isNaN(orbit)) throw('Invalid Arguments; Must pass a planet object and specify an orbital track between 0 and 19');
+    body.addListener(this.updateSystem);
+    this.#planetaryBodies = this.#planetaryBodies
+      .map(arr => arr.filter(b => b.id !== body.id));
+    this.#planetaryBodies[orbit].push(body);
+  }
+
+  updateSystem(){
+    const msg = 'Will Update System';
+    console.log(msg);
+    return msg;
+  }
+
+  get planetaryBodies(){
+    return this.#planetaryBodies;
   }
 
   get orbit1(){
@@ -53,7 +76,7 @@ export class System{
   }
 
   get innerLimit(){
-    const precisionFactor = 10000
+    const precisionFactor = 10000;
     return Math.round(
       (
         2.455 *
@@ -75,14 +98,16 @@ export class System{
         memo.push({
           distance:newOrbit,
           frost:newOrbit >= this.frostLine,
-          habitable:this.star.isHabitable(newOrbit)
+          habitable:this.star.isHabitable(newOrbit),
+          objects:this.#planetaryBodies[k + 1]
         });
         return memo;
       },[
         {
           distance:this.orbit1,
           frost:this.orbit1 >= this.frostLine,
-          habitable:this.star.isHabitable(this.orbit1)
+          habitable:this.star.isHabitable(this.orbit1),
+          objects:this.#planetaryBodies[0]
         }
       ])
   }

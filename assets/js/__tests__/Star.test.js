@@ -1,5 +1,6 @@
 import { Star } from '../Star.js';
 import { colorTemperature2rgb as cTemp } from '../colortemp.js';
+
 describe('Star class',()=>{
   describe('Static Methods',()=>{
     test('Star.calcRadius() should return the radius of the star based on the mass',()=>{
@@ -81,10 +82,6 @@ describe('Star class',()=>{
     const testStar = new Star(testName,testMass,testAge);
     test('Attempting to set a custom property or update a calc only property on a created Star should throw an error',()=>{
       expect(()=>{
-        testStar.customProp = 'should not happen';
-      })
-        .toThrow('Cannot add property customProp, object is not extensible');
-      expect(()=>{
         testStar.class = 'Class is calc only';
       })
         .toThrow('Cannot set property class of #<Star> which has only a getter');
@@ -96,10 +93,11 @@ describe('Star class',()=>{
       expect(testStar.name).toEqual(testName);
       expect(testStar.mass).toEqual(testMass);
       expect(testStar.age).toEqual(testAge);
-  
+      expect(testStar.serial).toEqual(['type','name','id','creation','mass','age']);
       // Star calculated Properties
       expect(testStar.maxAge).toEqual(10);
       expect(testStar.creation).toBeTruthy();
+      expect(testStar.id).toBeTruthy();
       expect(testStar.class).toEqual('G2.8V');
       expect(testStar.radius).toEqual(1);
       expect(testStar.luminosity).toEqual(1);
@@ -116,7 +114,23 @@ describe('Star class',()=>{
   
         expect(testStar.isHabitable(habAU)).toEqual(true);
         expect(testStar.isHabitable(inhabAU)).toEqual(false);
-      })
-    })
+      });
+    });
+    describe('Serialization',()=>{
+      const expected = {
+        type:'Star',
+        name:testStar.name,
+        id:testStar.id,
+        creation:testStar.creation,
+        mass:testStar.mass,
+        age:testStar.age
+      };
+      test('toObject() should return a nested object version of the entire system, including all stellar objects',()=>{
+        expect(testStar.toObject()).toEqual(expected);
+      });
+      test('toJSON() should return a JSON string version of the entire system',()=>{
+        expect(testStar.toJSON()).toEqual(JSON.stringify(expected));
+      });
+    });
   });
 })
