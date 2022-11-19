@@ -11,7 +11,7 @@ describe('Planet class',()=>{
       })
         .toThrow('The planet needs a name and a gas percentage object');
     });
-  })
+  });
   describe('Instance operations',()=>{
     const testPlanet = new Planet({name:'Test Planet'});
     

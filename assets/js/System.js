@@ -3,9 +3,9 @@ import { Star } from './Star.js';
 import { SO } from './SO.js';
 
 export class System extends SO{
-  #orbits;
-  #closeOrbit;
-  #planetaryBodies = [...Array(20).keys()].map(i => []);
+  orbits;
+  closeOrbit;
+  planetaryBodies = [...Array(20).keys()].map(i => []);
   /**
    * 
    * @param {string} name - The name of the system
@@ -45,9 +45,9 @@ export class System extends SO{
     orbit = +orbit;
     if(!body || Number.isNaN(orbit)) throw('Invalid Arguments; Must pass a planet object and specify an orbital track between 0 and 19');
     body.addListener(this.updateSystem);
-    this.#planetaryBodies = this.#planetaryBodies
+    this.planetaryBodies = this.planetaryBodies
       .map(arr => arr.filter(b => b.id !== body.id));
-    this.#planetaryBodies[orbit].push(body);
+    this.planetaryBodies[orbit].push(body);
   }
 
   updateSystem(){
@@ -57,18 +57,18 @@ export class System extends SO{
   }
 
   get planetaryBodies(){
-    return this.#planetaryBodies;
+    return this.planetaryBodies;
   }
 
   get orbit1(){
-    return this.#closeOrbit;
+    return this.closeOrbit;
   }
 
   set orbit1(orbit){
     orbit = +orbit;
     if(Number.isNaN(orbit)) throw('Invalid orbit. Orbit must be a number.');
     if(orbit < this.innerLimit) throw('Invalid orbit; too close to star');
-    this.#closeOrbit = orbit;
+    this.closeOrbit = orbit;
   }
 
   get frostLine(){
@@ -99,7 +99,7 @@ export class System extends SO{
           distance:newOrbit,
           frost:newOrbit >= this.frostLine,
           habitable:this.star.isHabitable(newOrbit),
-          objects:this.#planetaryBodies[k + 1]
+          objects:this.planetaryBodies[k + 1]
         });
         return memo;
       },[
@@ -107,7 +107,7 @@ export class System extends SO{
           distance:this.orbit1,
           frost:this.orbit1 >= this.frostLine,
           habitable:this.star.isHabitable(this.orbit1),
-          objects:this.#planetaryBodies[0]
+          objects:this.planetaryBodies[0]
         }
       ])
   }

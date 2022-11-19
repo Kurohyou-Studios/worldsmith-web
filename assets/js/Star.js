@@ -7,8 +7,8 @@ import { SO } from './SO.js';
  * A class to represent the Star to be worked on
  */
 export class Star extends SO{
-  #mass;
-  #age;
+  mass;
+  age;
   /**
    * 
    * @param {string} name - The name of the Star
@@ -24,26 +24,26 @@ export class Star extends SO{
       throw('A new star must have a name, mass, and age.');
     }
     super(name,'Star');
-    this.#mass = mass;
-    this.#age = age;
+    this.mass = mass;
+    this.age = age;
     this.serial.push('mass','age');
   }
 
   get mass(){
-    return this.#mass;
+    return this.mass;
   }
 
   set mass(val){
-    this.#mass = val;
+    this.mass = val;
     this.emit(this);
   }
 
   get age(){
-    return this.#age;
+    return this.age;
   }
 
   set age(val){
-    this.#age = val;
+    this.age = val;
     this.emit(this);
   }
 

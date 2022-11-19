@@ -1,8 +1,8 @@
 export class SO{
-  #id;
-  #func;
-  #creation;
-  #propertiesToSerialize;
+  id;
+  func;
+  creation;
+  propertiesToSerialize;
   /**
    * 
    * @param {string} name - The name of the stellar object
@@ -11,30 +11,30 @@ export class SO{
   constructor(name,type = 'unspecified'){
     if(!name) throw('All Stellar Objects must have a name');
     this.name = name;
-    this.#id = uuid();
-    this.#creation = Date.now();
+    this.id = uuid();
+    this.creation = Date.now();
     this.type = type;
-    this.#propertiesToSerialize=['type','name','id','creation'];
+    this.propertiesToSerialize=['type','name','id','creation'];
   }
   get serial(){
-    return this.#propertiesToSerialize;
+    return this.propertiesToSerialize;
   }
 
   get id(){
-    return this.#id;
+    return this.id;
   }
 
   get creation(){
-    return this.#creation;
+    return this.creation;
   }
 
   addListener(func){
-    this.#func = func;
+    this.func = func;
   }
 
   emit(){
-    return this.#func ?
-      this.#func(this) :
+    return this.func ?
+      this.func(this) :
       'No parent defined';
   }
   // Serialization

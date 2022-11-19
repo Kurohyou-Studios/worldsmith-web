@@ -7,7 +7,7 @@
     "test": "jest --watch"
   },
   "jest": {
-    "setupFiles":[
+    "setupFiles": [
       "./assets/js/__tests__/setupJestMock.js"
     ],
     "silent": false,
@@ -38,5 +38,11 @@
     "jest-summary-reporter": "^0.0.2",
     "js-yaml": "^4.1.0",
     "uuid": "^8.3.2"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.2.1",
+    "@fortawesome/free-brands-svg-icons": "^6.2.1",
+    "@fortawesome/free-solid-svg-icons": "^6.2.1",
+    "@fortawesome/vue-fontawesome": "^3.0.2"
   }
 }
