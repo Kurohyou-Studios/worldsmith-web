@@ -1,0 +1,366 @@
+:root{
+  /* FA variable overrides*/
+  --fa-li-width:1.5em;
+  --fa-li-margin: var(--fa-li-width);
+  /* Spacing variables */
+  --gap: 1.6rem;
+  --half-gap: calc(var(--gap) / 2);
+  --big-gap: calc(var(--gap) * 2);
+  --tiny-gap: calc(var(--half-gap) / 2);
+
+  --notchSize: var(--gap);
+  --v-notchSize: var(--gap);
+  --h-notchSize: var(--big-gap);
+  --borderWidth: 2px;
+
+  /* Color Variables */
+  --lm-strong-color: #121216;
+  --dm-strong-color: #fffbfe;
+  --strong-color: var(--lm-strong-color);
+
+  --lm-normal-color: #202229;
+  --dm-normal-color: #d0cfcf;
+  --normal-color:var(--lm-normal-color);
+
+  --lm-link-color: #324748;
+  --dm-link-color: #a31621;
+  --link-color: var(--lm-link-color);
+
+  --lm-overlay-rgb: 255 251 254;
+  --dm-overlay-rgb: 18 18 22;
+  --overlay-rgb: var(--lm-overlay-rgb);
+
+  --lm-back-color-1: rgb(255, 251, 254);
+  --dm-back-color-1: #202229;
+  --back-color-1: var(--lm-back-color-1);
+
+  --lm-back-color-2: #d0cfcf;
+  --dm-back-color-2: rgb(18, 18, 22);
+  --back-color-2: var(--lm-back-color-2);
+
+  --lm-danger-color: red;
+  --dm-danger-color:red;
+  --danger-color:var(--lm-danger-color);
+
+  --basicShadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+
+  /* Font families */
+  --headerFont: Aldrich, Monospace;
+  --contentFont: 'Exo 2', sans-serif;
+
+  /* Font sizes */
+  --text1: 200%;
+  --text2: 175%;
+  --text3: 150%;
+  --text4: 125%;
+  --text5: 100%;
+  --text6: 62.5%;
+  
+  // Box shadow setup
+  --box-shadow-1-base-color: rgba(0, 0, 0, 0.19);
+  --box-shadow-1-accent-color: rgba(0, 0, 0, 0.23);
+  --box-shadow-1-base-x: 0px;
+  --box-shadow-1-base-y: 10px;
+  --box-shadow-1-base-blur: 20px;
+  --box-shadow-1-accent-x: 0px;
+  --box-shadow-1-accent-y: 6px;
+  --box-shadow-1-accent-blur: 6px;
+  --box-shadow-1--base:var(--box-shadow-1-base-color) var(--box-shadow-1-base-x) var(--box-shadow-1-base-y) var(--box-shadow-1-base-blur);
+  --box-shadow-1--accent: var(--box-shadow-1-accent-color) var(--box-shadow-1-accent-x) var(--box-shadow-1-accent-y) var(--box-shadow-1-accent-blur);
+  --box-shadow-1:var(--box-shadow-1--base), var(--box-shadow-1--accent);
+
+  /* Default assignments */
+  font-size: 16px;
+  font-family:var(--contentFont);
+  color:var(--normal-color);
+  background-color:var(--back-color-1);
+  scroll-padding-bottom: 60px;
+}
+
+h1,h2,h3,
+[aria-level="1"],[aria-level="2"],[aria-level="3"]{
+  font-family: var(--headerFont);
+  color:var(--strong-color);
+}
+h1,h2,h3,h4,h5,h6{
+  margin:0;
+}
+
+a{
+  text-decoration: none;
+  border-block:2px solid transparent;
+  box-sizing:border-box;
+  &:not(.active):not(.router-link-active){
+    color:var(--link-color);
+  }
+  &:is(.active,.router-link-active){
+    color:var(--contentFont);
+    border-color:var(--contentFont)
+  }
+}
+
+h1,
+.text-1{
+  font-size:var(--text1);
+}
+
+h1.small-text,
+.text-1.small-text{
+  font-size:calc( var(--text1) * 0.75);
+}
+
+h1.tiny-text,
+.text-1.tiny-text{
+  font-size:calc( var(--text1) * 0.5);
+}
+
+h2,
+.text-2{
+  font-size:var(--text2);
+}
+
+h2.small-text,
+.text-2.small-text{
+  font-size:calc( var(--text2) * 0.75);
+}
+
+h2.tiny-text,
+.text-2.tiny-text{
+  font-size:calc( var(--text2) * 0.5);
+}
+
+h3,
+.text-3{
+  font-size:var(--text3);
+}
+
+h3.small-text,
+.text-3.small-text{
+  font-size:calc( var(--text3) * 0.75);
+}
+
+h3.tiny-text,
+.text-3.tiny-text{
+  font-size:calc( var(--text3) * 0.5);
+}
+
+h4,
+.text-4{
+  font-size:var(--text4);
+}
+
+h4.small-text,
+.text-4.small-text{
+  font-size:calc( var(--text4) * 0.75);
+}
+
+h4.tiny-text,
+.text-4.tiny-text{
+  font-size:calc( var(--text4) * 0.5);
+}
+
+h5,
+.text-5{
+  font-size:var(--text5);
+}
+
+h5.small-text,
+.text-5.small-text{
+  font-size:calc( var(--text5) * 0.75);
+}
+
+h5.tiny-text,
+.text-5.tiny-text{
+  font-size:calc( var(--text5) * 0.5);
+}
+
+h6,
+.text-6{
+  font-size:var(--text6);
+}
+
+h6.small-text,
+.text-6.small-text{
+  font-size:calc( var(--text6) * 0.75);
+}
+
+h6.tiny-text,
+.text-6.tiny-text{
+  font-size:calc( var(--text6) * 0.5);
+}
+
+.overlay{
+  background-color: rgb(var(--overlay-rgb) / 75%);
+}
+
+#root{
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
+  margin-inline:auto;
+  max-width:1080px;
+  background-color:var(--back-color-2);
+  /* Box shadow from material design via #29 on https://getcssscan.com/css-box-shadow-examples */
+  box-shadow: var(--box-shadow-1);
+}
+
+section{
+  padding:var(--big-gap);
+}
+
+@media (prefers-color-scheme: dark){
+  :root{
+    --strong-color: var(--dm-strong-color);
+    --normal-color:var(--dm-normal-color);
+    --link-color: var(--dm-link-color);
+    --overlay-rgb: var(--dm-overlay-rgb);
+    --back-color-1: var(--dm-back-color-1);
+    --back-color-2: var(--dm-back-color-2);
+    --danger-color: var(--dm-danger-color);
+  }
+}
+
+@media not (prefers-reduced-motion){
+  .hover-expand{
+    display:flex;
+    .full-text{
+      max-width: 0px;
+      overflow: hidden;
+      transition-property: max-width;
+      transition-duration: 1s;
+    }
+    &:is(:hover,:focus,:focus-within,.active,.router-link-active) > .full-text {
+      max-width: 100px;
+      width: auto;
+    }
+  }
+}
+
+.no-marker li{
+  list-style-type: none;
+}
+
+.btn{
+  color:var(--normal-color);
+  &:not([disabled]){
+    cursor: pointer;
+  }
+}
+
+.shadow-container{
+  --borderShadow:drop-shadow(var(--borderWidth) 0 var(--link-color)) drop-shadow(calc(var(--borderWidth) * -1) 0 var(--link-color)) drop-shadow(0 var(--borderWidth) var(--link-color)) drop-shadow(0 calc(var(--borderWidth) * -1) var(--link-color));
+  --dropShadow: drop-shadow(rgba(0, 0, 0, 0.12) 0px 1px 3px) drop-shadow(rgba(0, 0, 0, 0.24) 0px 1px);
+  filter: var(--borderShadow) var(--dropShadow);
+}
+
+.octagon{
+  overflow:hidden;
+  clip-path: polygon(
+    /* x     y*/
+    0 var(--v-notchSize),
+    var(--h-notchSize) 0,
+    calc(100% - var(--h-notchSize)) 0,
+    100% var(--v-notchSize),
+    100% calc(100% - var(--v-notchSize)),
+    calc(100% - var(--h-notchSize)) 100%,
+    var(--h-notchSize) 100%,
+    0 calc(100% - var(--v-notchSize))
+  );
+}
+
+.octagon-container{
+  padding:var(--borderWidth);
+}
+
+.m-0{
+  margin:0;
+}
+.py-gap{
+  padding-block:var(--gap);
+}
+
+.active-highlight{
+  background-color:var(--link-color);
+  filter: drop-shadow(var(--box-shadow-1--base)) drop-shadow(var(--box-shadow-1--accent));
+  padding-inline:var(--gap);
+}
+
+section{
+  min-height:100%;
+  box-sizing: border-box;
+}
+// Loading animation adapted from dot3 https://dev.to/afif/i-made-100-css-loaders-for-your-next-project-4eje#the-dots
+.loading {
+  --maxDot: 10px;
+  --dotSize: min(60%,var(--maxDot));
+  --yUp: max(calc(50% - calc(var(--maxDot) * 2)),0%);
+  --yDown: min(calc(50% + calc(var(--maxDot) * 2)),100%);
+  --xLeft: max(calc(50% - calc(var(--maxDot) * 3)),20%);
+  --xRight: min(calc(50% + calc(var(--maxDot) * 3)),80%);
+  --_g: no-repeat radial-gradient(circle closest-side,var(--strong-color) var(--dotSize),#0000 var(--dotSize));
+  background: 
+    var(--_g) var(--xLeft)   50%,
+    var(--_g) 50%  50%,
+    var(--_g) var(--xRight) 50%;
+  background-size: calc(100%/3) 50%;
+  animation: load 2s infinite linear;
+  > *{
+    opacity: 30%;
+  }
+}
+
+@keyframes load {
+  20%{background-position:var(--xLeft)   var(--yDown), 50%  50%,var(--xRight)  50%}
+  40%{background-position:var(--xLeft) var(--yUp), 50%   var(--yDown),var(--xRight)  50%}
+  60%{background-position:var(--xLeft)  50%, 50% var(--yUp),var(--xRight)   var(--yDown)}
+  80%{background-position:var(--xLeft)  50%, 50%  50%,var(--xRight) var(--yUp)}
+}
+
+.flex-box{
+  display:flex;
+}
+.flex-column{
+  flex-direction:column;
+}
+
+.align-items-start{
+  align-items:start;
+}
+.align-items-end{
+  align-items:end;
+}
+.align-items-center{
+  align-items:center;
+}
+
+.justify-content-space-around{
+  justify-content: space-around;
+}
+.justify-content-space-between{
+  justify-content: space-between;
+}
+.justify-content-space-evenly{
+  justify-content: space-evenly;
+}
+.justify-content-start{
+  justify-content: start;
+}
+.justify-content-center{
+  justify-content: center;
+}
+.justify-content-end{
+  justify-content: end;
+}
+
+.gap-big{
+  gap:var(--big-gap);
+}
+.gap{
+  gap:var(--gap);
+}
+.gap-half{
+  gap:var(--half-gap);
+}
+.gap-tiny{
+  gap:var(--tiny-gap);
+}
