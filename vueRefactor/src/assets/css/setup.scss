@@ -1,3 +1,4 @@
+@use './transitions';
 :root{
   /* FA variable overrides*/
   --fa-li-width:1.5em;
@@ -235,8 +236,10 @@ section{
     }
   }
 }
-
-.no-marker li{
+ul:not(.fa-ul){
+  padding:0;
+}
+li:not(.marker){
   list-style-type: none;
 }
 
@@ -363,4 +366,20 @@ section{
 }
 .gap-tiny{
   gap:var(--tiny-gap);
+}
+.card{
+  background-color:var(--back-color-2);
+}
+
+input{
+  background-color:var(--back-color-1);
+  box-shadow:
+    var(--box-shadow-1--base) inset,
+    var(--box-shadow-1--accent) inset;
+  color: var(--normal-color);
+  border:0px;
+}
+
+fieldset{
+  border: 0px;
 }

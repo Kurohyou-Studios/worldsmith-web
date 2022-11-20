@@ -1,0 +1,11 @@
+@use './fade';
+@use './slide-left';
+
+@media not (prefers-reduced-motion){
+  // Fade transition
+  @include fade.transition;
+
+  @include slide-left.transition;
+
+  
+}

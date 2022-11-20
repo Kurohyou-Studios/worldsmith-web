@@ -1,5 +1,6 @@
 <script setup>
-import Card from './Card.vue';
+import { Card } from '@/components';
+
 const {
   system,
   selected
@@ -11,7 +12,7 @@ const {
 </script>
 
 <template>
-<Card>
+<Card class="system-display">
   <template #title>
     <h3>Planetary System Map</h3>
   </template>

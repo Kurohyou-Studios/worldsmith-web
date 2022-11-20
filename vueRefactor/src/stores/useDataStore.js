@@ -9,7 +9,8 @@ const useDataStore = defineStore('data', () => {
   const loading = ref(false);
   const scanning = ref(false);
   const project = ref(null);
-  const selected = ref(null);
+  const system = ref(null);
+  const selected = ref({});
   let maintenanceTimer;
   const getWorlds = async () => {
     try {
@@ -88,9 +89,7 @@ const useDataStore = defineStore('data', () => {
     loading.value = false;
   };
   
-  const setSelected = (so) => selected.value = so;
-
-  const setProject = (newProject) => project.value = newProject;
+  const setSelected = (obj) => selected.value = obj;
 
   return {
     // values
@@ -98,14 +97,12 @@ const useDataStore = defineStore('data', () => {
     dirHandle,
     loading,
     selected,
-    project,
     // Methods
     chooseDirectory,
     updateDirectory,
     findWorld,
     updateWorld,
-    setSelected,
-    setProject
+    setSelected
   };
 });
 

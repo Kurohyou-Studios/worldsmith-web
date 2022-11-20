@@ -1,6 +1,6 @@
 <script setup>
 import { useDataStore } from '@/stores';
-import SystemDisplay from './SystemDisplay.vue';
+import { SystemDisplay } from '@/components';
 
 const {
   data,

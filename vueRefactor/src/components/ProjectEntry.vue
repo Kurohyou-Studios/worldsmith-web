@@ -1,6 +1,6 @@
 <script setup>
 import { nextTick, ref, computed } from 'vue';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 import { Button, ToolButton, ContextMenu } from '@/components';
 import { Project, Planet, System, Star, Galaxy } from '@/stellarClasses';
@@ -18,14 +18,16 @@ const {
   level,
   content,
   nameProp,
-  project
+  project,
+  system
 } = defineProps({
   data: Object,
   level: [Number, String],
   content: String,
   type: String,
   nameProp: String,
-  project: Object
+  project: Object,
+  system: Object
 });
 console.log('data', data);
 
@@ -59,11 +61,6 @@ const submitValue = async (event) => {
   if (name.value.value !== data[nameProp]) {
     data[nameProp] = name.value.value;
     project.save();
-    // debugger;
-    // await dataStore.updateWorld(
-    //   data.id,
-    //   data
-    // );
   }
   toggleEdit();
 };
@@ -108,8 +105,11 @@ const clickEntry = (event) => {
 const debouncedClick = debounceForClick((event)=>clickEntry(event));
 
 const selectEntry = (event) => {
-  dataStore.setSelected(data);
-  dataStore.setProject(project);
+  dataStore.setSelected({
+    data,
+    project,
+    system
+  });
 };
 
 const openContextMenu = (event) => {
@@ -151,7 +151,7 @@ const openContextMenu = (event) => {
   </li>
   </ContextMenu>
   <ul v-if="data.children.length" class="fa-ul">
-    <ProjectEntry v-for="obj in data.children" :data="obj" :key="obj.id" :level="nextLevel" :project="project"
+    <ProjectEntry v-for="obj in data.children" :data="obj" :key="obj.id" :level="nextLevel" :system="obj.type === 'System' ? obj : system" :project="project"
       :type="obj.type" name-prop="name" :content="obj.name || `New ${obj.type}`" />
   </ul>
   </li>

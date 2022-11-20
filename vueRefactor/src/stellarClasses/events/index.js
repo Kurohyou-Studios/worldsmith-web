@@ -12,13 +12,13 @@ export class SOEvent {
     }
   }
 
-  on(eventName, soID, callback) {
+  on(eventName, soID, callback,context) {
     let event = this.events[eventName];
     if (!event) {
       event = new DispatcherEvent(eventName);
       this.events[eventName] = event;
     }
-    event.registerCallback(callback,soID);
+    event.registerCallback(callback,soID,context);
   }
 
   off(eventName, soID, callback) {

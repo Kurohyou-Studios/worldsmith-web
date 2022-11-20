@@ -24,13 +24,22 @@ export class SO{
    * @param {string} name - The name of the stellar object
    * @param {string} [type = 'SO'] - The type of the stellar object. Should be Star, Planet, Galaxy, System, or Project
    */
-  constructor(name,type = 'SO',creation = Date.now(),id = uuid()){
+  // Need to add actual distance, eccentricy, inclination, and angle random starting values
+  constructor(name,type = 'SO',distance = Math.random(),eccentricity = Math.random(), angle=Math.random(), inclination=Math.random(),creation = Date.now(),id = uuid()){
     if(!name) throw('All Stellar Objects must have a name');
     this.name = name;
     this.id = id;
     this.creation = creation;
     this.type = type;
+    this.distance = distance;
+    this.eccentricity = eccentricity;
+    this.angle = angle;
+    this.inclination = inclination;
     this.propertiesToSerialize=['type','name','id','creation','children'];
+    
+    this.events.on('add-child',this.id,() =>{
+
+    })
   }
   get serial(){
     return this.propertiesToSerialize;
@@ -52,6 +61,9 @@ export class SO{
     children.forEach(child => {
       child.parent = this;
       this.children.push(child);
+      this.events.dispatch('add-child',this.id,child);
+      
+      child.events.dispatch('add-parent',child.id);
     });
   }
 
@@ -65,6 +77,8 @@ export class SO{
       this.children.splice(index,1);
     }
     child.parent = null;
+    this.events.dispatch('remove-child',this.id,child);
+    child.events.dispatch('remove-parent',child.id,this);
   }
 
   //

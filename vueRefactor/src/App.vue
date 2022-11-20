@@ -10,7 +10,7 @@ const dataStore = useDataStore();
   <Header />
   <main>
       <RouterView v-slot="{ Component }">
-        <Transition name="route">
+        <Transition name="fade">
           <component :is="Component" />
         </Transition>
       </RouterView>
@@ -30,31 +30,6 @@ main{
   grid-template-areas:'content';
   > * {
     grid-area:content;
-  }
-}
-
-
-@media not (prefers-reduced-motion){
-  .route-enter-active,
-  .route-leave-active{
-    transition: {
-      property: opacity;
-      duration:1s;
-    };
-  }
-  .route-enter-active{
-    transition-timing-function: ease-in;
-  }
-  .route-leave-active{
-    transition-timing-function:ease-out;
-  }
-  .route-enter-from,
-  .route-leave-to{
-    opacity:0;
-  }
-  .route-enter-to,
-  .route-leave-from{
-    opacity:1;
   }
 }
 </style>

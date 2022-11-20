@@ -14,7 +14,7 @@ export class Star extends SO{
    * @param {number} mass - The mass of the star in solar masses
    * @param {number} age - The age of the star in billions of earth years
    */
-  constructor({name = 'New Star',mass = 1,age = 4.5,creation,id}){
+  constructor({name = 'New Star',mass = 1,age = 4.5,distance = 0,eccentricity = 0,angle = 0, inclination=0,creation,id}){
     if(
       !name || typeof name !== 'string' ||
       Number.isNaN(+mass) ||
@@ -22,7 +22,7 @@ export class Star extends SO{
     ){
       throw('A new star must have a name, mass, and age.');
     }
-    super(name,'Star',creation,id);
+    super(name,'Star',distance,eccentricity,angle,inclination,creation,id);
     this.mass = mass;
     this.age = age;
     this.serial.push('mass','age');
@@ -66,10 +66,6 @@ export class Star extends SO{
 
   get density() {
     return Star.calcDensity(this.mass,this.radius);
-  }
-
-  get habZone() {
-    return Star.calcHabZone(this.mass,this.luminosity);
   }
 
   get earth() {
@@ -187,25 +183,6 @@ export class Star extends SO{
     return Number.isNaN(kelvin) ?
       NaN :
       cTemp(kelvin);
-  }
-  
-  /**
-   * 
-   * @param {number|string} mass 
-   * @param {number|string} luminonsity 
-   * @returns 
-   */
-  static calcHabZone(mass,luminosity){
-    mass = +mass;
-    luminosity = +luminosity;
-    if(
-      Number.isNaN(mass) && Number.isNaN(luminosity) && 
-      (mass <= 0.075 || mass >= 100)
-    ) return null;
-    return [
-      Math.round(Math.sqrt(1/1.1) * 1000) / 1000,
-      Math.round(Math.sqrt(luminosity/0.53) * 1000) / 1000,
-    ]
   }
   
   /**

@@ -13,32 +13,67 @@ export class System extends SO{
    * @param {string} name - The name of the system
    * @param {number} spacing - The logarithmic spacing factor of the system
    * @param {number} orbit1 - The distance in AU of the first orbiting planet
-   * @param {number} giantOrbit - The distance in AU of the last gas giant
    * @param {Star|Array<Star>} star - The star that the system is around
    */
-  constructor({name = 'New System',spacing = 0.3,orbit1 = 0.4,giantOrbit = 30.07,star,creation,id}){
-    spacing = +spacing
-    orbit1 = +orbit1
-    giantOrbit = +giantOrbit
+  constructor({
+    name = 'New System',
+    spacing = 0.3,
+    orbit1 = 0.4,
+    starIDs = [],
+    planetIDs = [],
+    creation,
+    id
+  }){
     if(
       !name || typeof name !== 'string' ||
       Number.isNaN(spacing) ||
-      Number.isNaN(orbit1) ||
-      Number.isNaN(giantOrbit)
+      Number.isNaN(orbit1)
     ){
       throw 'A new system must have a name, spacing factor, first orbit, an outermost gas giant orbit, and a Star (or array of stars).';
     }
     super(name,'System',creation,id);
-    if(star){
-      star.parent = this;
-      this.star = star;
+    spacing = +spacing;
+    orbit1 = +orbit1;
+    this.starIDs = starIDs;
+    this.planetIDs = planetIDs;
+    if(!this.starIDs.length){
+      const star = new Star({});
+      this.addChild(star);
       this.starIDs.push(star.id);
-      this.orbit1 = orbit1;
     }
     this.spaceFactor = spacing;
-    this.outerGiant = giantOrbit;
-    this.serial.push('star','orbit1','spaceFactor','outerGiant','starIDs','planetIDs','orbits');
+    this.serial.push('starIDs','orbit1','spaceFactor','outerGiant','starIDs','planetIDs','orbits');
+    this.events.on('add-child',this.id,this.handleChildAdd,this);
+    this.events.on('remove-child',this.id,this.handleChildRemove,this);
   }
+
+  /**
+   * 
+   * @param {UUID} soID - the id of the triggering element
+   * @param {SO} child - The child element that was added to the system.
+   */
+  handleChildAdd(child){
+    if(child.type === 'Star' && this.starIDs.indexOf(child.id)< 0){
+      this.starIDs.push(child.id);
+    }else if(child.type !== 'Star' && this.planetIDs.indexOf(child.id)< 0){
+      this.planetIDs.push(child.id);
+    }
+  }
+
+  handleChildRemove(child){
+    let index;
+    let idProp;
+    if(child.type === 'Star'){
+      index = this.starIDs.indexOf(child.id);
+      idProp = 'starIDs';
+    }else{
+      index = this.planetIDs.indexOf(child.id);
+      idProp = 'planetIDs';
+    }
+    if(index > -1){
+      this[idProp].splice(index,1);
+    }
+  };
 
   /**
    * Adds a body(ies) to the planetary system
@@ -73,23 +108,22 @@ export class System extends SO{
     this.closeOrbit = orbit;
   }
 
-  get frostLine(){
-    return Math.round(4.85 * Math.sqrt(this.star.luminosity) * 1000) / 1000;
+  get stars(){
+    return this.children.filter(child => this.starIDs.indexOf(child.id) > -1);
   }
 
+  get frostLine(){
+    const totalLuminosity = this.totalLuminosity;
+    return Math.round(4.85 * Math.sqrt(totalLuminosity) * 1000) / 1000;
+  }
+
+  /**
+   * Need to switch over to roche limit calculation
+   */
   get innerLimit(){
     const precisionFactor = 10000;
-    return Math.round(
-      (
-        2.455 *
-        ( this.star.radius * 696340 ) *
-        Math.pow(
-          (this.star.density * 1408) /
-          5400
-        ,1 / 3) /
-        149600000
-      ) * precisionFactor
-    ) / precisionFactor;
+    const totalMass = this.totalMass;
+    return 0.1 * totalMass;
   }
 
   get orbits(){
@@ -99,24 +133,25 @@ export class System extends SO{
           (this.spaceFactor * Math.pow(2,k))) * 100) / 100;
         memo.push({
           distance:newOrbit,
-          frost:newOrbit >= this.frostLine,
-          habitable:this.star.isHabitable(newOrbit)
+          frost:newOrbit >= this.frostLine
         });
         return memo;
       },[
         {
           distance:this.orbit1,
-          frost:this.orbit1 >= this.frostLine,
-          habitable:this.star.isHabitable(this.orbit1)
+          frost:this.orbit1 >= this.frostLine
         }
       ])
   }
 
   get outerResonance(){
+    const totalMass = this.stars.reduce((total,star) => {
+      return total += star.mass;
+    },0);
     const gasPeriod = Math.round(
       Math.sqrt(
         Math.pow(this.outerGiant,3) /
-        this.star.mass
+        totalMass
       ) * 1000
     ) / 1000;
     const periodArr = [
@@ -127,13 +162,38 @@ export class System extends SO{
       gPeriod: gasPeriod,
       period: periodArr,
       AU: [
-        Math.round(Math.pow(Math.pow(periodArr[0],2)*this.star.mass,1/3) * 1000) / 1000,
-        Math.round(Math.pow(Math.pow(periodArr[1],2)*this.star.mass,1/3) * 1000) / 1000,
+        Math.round(Math.pow(Math.pow(periodArr[0],2)*totalMass,1/3) * 1000) / 1000,
+        Math.round(Math.pow(Math.pow(periodArr[1],2)*totalMass,1/3) * 1000) / 1000,
       ]
     }
   }
 
   get debris(){
     return this.outerResonance.AU;
+  }
+
+  get totalLuminosity(){
+    return this.stars.reduce((total,star) =>{
+      return total += star.luminosity;
+    },0);
+  }
+
+  get totalMass(){
+    return this.stars.reduce((total,star) => {
+      return total += star.mass;
+    },0);
+  }
+
+  get habZone() {
+    const totalMass = this.totalMass;
+    const totalLuminosity = this.totalLuminosity;
+    if(
+      Number.isNaN(totalMass) && Number.isNaN(totalLuminosity) && 
+      (totalMass <= 0.075 || totalMass >= 100)
+    ) return null;
+    return [
+      Math.round(Math.sqrt(1/1.1) * 1000) / 1000,
+      Math.round(Math.sqrt(totalLuminosity/0.53) * 1000) / 1000,
+    ]
   }
 }

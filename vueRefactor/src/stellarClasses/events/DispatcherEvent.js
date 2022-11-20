@@ -5,8 +5,9 @@ export class DispatcherEvent {
     this.callbacks = [];
   }
 
-  registerCallback(callback,soID) {
-    this.callbacks.push({callback,soID});
+  registerCallback(callback,soID,context) {
+    const boundCallback = callback.bind(context);
+    this.callbacks.push({callback:boundCallback,soID});
   }
 
   unregisterCallback(callback,soID) {
