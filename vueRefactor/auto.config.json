@@ -1,0 +1,4 @@
+{
+  "ignore":["./src/assets","./src/assets/css","./src/components/__tests__"],
+  "fileTypes":["vue","js"]
+}

@@ -1,3 +1,5 @@
+import { describe, expect, test } from 'vitest'
+
 import { Planet } from '../Planet.js';
 describe('Planet class',()=>{
   describe('Error testing',()=>{
@@ -20,13 +22,12 @@ describe('Planet class',()=>{
         type:'Planet',
         name:testPlanet.name,
         id:testPlanet.id,
-        creation:testPlanet.creation
+        creation:testPlanet.creation,
+        children:{},
+        parent:undefined
       };
-      test('toObject() should return a nested object version of the entire system, including all stellar objects',()=>{
-        expect(testPlanet.toObject()).toEqual(expected);
-      });
       test('toJSON() should return a JSON string version of the entire system',()=>{
-        expect(testPlanet.toJSON()).toEqual(JSON.stringify(expected));
+        expect(JSON.stringify(testPlanet)).toEqual(JSON.stringify(expected));
       });
     });
   });

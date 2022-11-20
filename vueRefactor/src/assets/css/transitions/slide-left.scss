@@ -1,0 +1,23 @@
+// slide-left
+@mixin transition{
+  .slide-left-enter-active,
+  .slide-left-leave-active{
+    transition: {
+      property: transform;
+      duration:1s;
+      timing-function: linear;
+    };
+  }
+  .slide-left-enter-from{
+    transform: translateX(100%);
+  }
+  .slide-left-enter-to{
+    transform: translateX(0%);
+  }
+  .slide-left-leave-from{
+    transform: translateX(0%);
+  }
+  .slide-left-leave-to{
+    transform: translateX(-100%);
+  }
+}
